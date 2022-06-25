@@ -36,4 +36,11 @@
             <i class="fa-regular fa-envelope"></i>
         </a>
     {% endif %}
+    
+{% if site.rss %}
+        <a class="link" data-title="RSS" href="{{ site.url }}/feed.xml"  rel="noopener">
+            <i class="fa-regular fa-rss"></i>
+        </a>
+    {% endif %}
+ 
 </div>
