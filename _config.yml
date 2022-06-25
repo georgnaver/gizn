@@ -43,10 +43,10 @@ email: gizn@georgnaver.se
 
 authors:
   johndoe:
-    name: John Doe
-    bio: A Man who travels the world eating noodles
+    name: Georg Navér
+    bio:
     external-image: false
-    picture: assets/images/profile.jpg
+    picture: assets/images/profile2.jpg
     twitter: johndoe
   jamesfoster:
     name: James Foster
@@ -74,6 +74,7 @@ projects: true
 # if you don't need "about" or "blog", comment them out below
 about: true
 blog: true
+prutt: true
 
 # do you want to show the "read time" of the posts?
 read-time: true
