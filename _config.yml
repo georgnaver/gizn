@@ -40,6 +40,8 @@ twitter: giznse
 # linkedin: mylinkedin
 github: georgnaver
 email: gizn@georgnaver.se
+rss: true
+
 
 authors:
   johndoe:
