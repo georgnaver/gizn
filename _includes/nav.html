@@ -13,6 +13,14 @@
                 </li>
             {% endif %}
         {% endif %}
+        
+        {% if site.prutt == true %}
+            {% if page.title != "Prutt" %}
+                <li class="item">
+                    <a class="link" href="{{ site.url }}/prutt">Prutt</a>
+                </li>
+            {% endif %}
+        {% endif %} 
 
         {% if site.projects == true %}
             {% if page.title != "Projects" %}
