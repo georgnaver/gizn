@@ -23,3 +23,14 @@ description: Markdown summary with different options
 *9
 
 hej
+
+## R kod
+
+{% highlight R %}
+ggplot(regsum, aes(x = inskrivningsdatum_pa_klinik_manad, y = cumsum(n))) +
+  geom_col() +
+  labs(title = "Ackumulerat antal inskrivna patienter per månad",
+       x = " ",
+       y = "Antal") +
+  theme_bw()
+{% endhighlight %}
