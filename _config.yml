@@ -3,7 +3,7 @@ title: gizn.se
 bio: En blog i R
 
 # twitter summary info
-description: A blog about technology and stuff related
+description: Statistik och nya rön inom medicin i allmänhet och infektionssjukdomar i synnerhet
 
 # if it's an external image, update below for true
 # better with square images
@@ -20,7 +20,7 @@ resume: false
 resume-external: false
 resume-url: https://google.com/?q=my+resume
 
-url: https://georgnaver.github.io/gizn
+url: https://gizn.se
 # your url: https://USERNAME.github.io
 
 permalink: /:title/
