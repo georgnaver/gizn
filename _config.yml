@@ -20,7 +20,7 @@ resume: false
 resume-external: false
 resume-url: https://google.com/?q=my+resume
 
-url: https://georgnaver.github.io/georgnaver
+url: https://georgnaver.github.io/gizn
 # your url: https://USERNAME.github.io
 
 permalink: /:title/
