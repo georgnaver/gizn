@@ -70,13 +70,11 @@ pagination:
   per_page: 5
   permalink: "/:num/" # pagination link that will be appended
 
-# if you don't need projects, comment the *projects* configs below
+# if you don't need x, comment the *projects* configs below
 forskning: true
-
-# if you don't need "about" or "blog", comment them out below
-about: true
+about: false
 blog: true
-prutt: true
+prutt: false
 
 # do you want to show the "read time" of the posts?
 read-time: true
