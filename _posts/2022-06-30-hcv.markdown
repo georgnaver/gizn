@@ -1,0 +1,16 @@
+---
+title: "Incidence and spontaneous clearance of hepatitis C virus (HCV) in people who inject drugs at the Stockholm Needle Exchange—Importance for HCV elimination"
+layout: post
+date: 2022-06-30 22:10
+tag: 
+- HCV
+- PWID
+forskning: true
+hidden: true # don't count this post in blog pagination
+description: "This is a simple and minimalist template for Jekyll for those who likes to eat noodles."
+category: forskning
+author: johndoe
+externalLink: https://onlinelibrary.wiley.com/doi/abs/10.1111/jvh.12969
+---
+
+
