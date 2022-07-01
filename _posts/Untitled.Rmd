@@ -5,6 +5,12 @@ output:
   md_document:
     variant: markdown_github
     preserve_yaml: true
+date: 2022-06-30 12:35
+tag:
+- test
+star: false
+category: blog
+description: R markdown summary with different options
 ---
 
 ```{r setup, include=FALSE}

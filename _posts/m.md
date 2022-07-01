@@ -1,15 +1,9 @@
 ---
-category: blog
-date: "2022-06-30 12:35"
-description: R markdown summary with different options
 layout: post
 output:
   md_document:
     preserve_yaml: true
     variant: markdown_github
-star: false
-tag:
-- test
 title: Posting Rmarkdowns to your Jekyll website
 ---
 
