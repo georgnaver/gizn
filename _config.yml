@@ -43,19 +43,19 @@ email: gizn@georgnaver.se
 rss: true
 
 
-authors:
-  johndoe:
-    name: Georg Navér
-    bio:
-    external-image: false
-    picture: assets/images/profile2.jpg
-    twitter: johndoe
-  jamesfoster:
-    name: James Foster
-    bio: A Man who develops software with coffee
-    external-image: false
-    picture: assets/images/james.jpg
-    twitter: jamesfoster
+# authors:
+#  johndoe:
+#    name: Georg Navér
+#    bio:
+#    external-image: false
+#    picture: assets/images/profile2.jpg
+#    twitter: johndoe
+#  jamesfoster:
+#    name: James Foster
+#    bio: A Man who develops software with coffee
+#    external-image: false
+#    picture: assets/images/james.jpg
+#    twitter: jamesfoster
 
 # do you want a larger site? change the option below
 # options: [normal, large] | default: normal
