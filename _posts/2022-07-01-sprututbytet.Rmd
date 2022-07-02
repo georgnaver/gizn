@@ -1,0 +1,508 @@
+---
+layout: post
+title: Sprututbytet månadsrapport
+output:
+  md_document:
+    variant: markdown_github
+    preserve_yaml: true
+date: 2022-07-01 12:35
+tag:
+- R
+star: true
+category: blog
+description: R markdown sprututbytet
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(base.dir = "/Users/georgnaver/github/gizn", base.url = "/")
+knitr::opts_chunk$set(fig.path = "assets/images/")
+
+pacman::p_load(
+  tidyverse,      # includes ggplot2 and other data management tools
+  rio,            # import/export
+  here,           # file locator
+  stringr,        # working with characters
+  janitor,        # data cleaning and tables
+  lubridate,      # working with dates
+  epikit,         # age_categories() function
+  lubridate,      # general package for handling and converting dates  
+  aweek,          # another option for converting dates to weeks, and weeks to dates
+  zoo,            # additional date/time functions
+  skimr,
+  rmarkdown,
+  apyramid,       # a package dedicated to creating age pyramids
+  survival,
+  dplyr,
+  ggsci
+)
+
+reg <- rio::import("/Users/georgnaver/github/sprututbytetmanadsrapport/data/aug/Kopia av c74539f9-6245-4688-b427-5801070f290d.xlsx")
+
+# pipe the raw dataset through the function clean_names(), assign result as "reg"  
+reg <- reg %>% 
+  janitor::clean_names()
+
+# radera onödiga kolumner och persondata
+reg <- reg %>%
+  select(
+    -fornamn, 
+    -efternamn, 
+    -personnummer, 
+    -reservnummer, 
+    -fodelsedatum_manuell, 
+    -dodsorsak, 
+    -klinik,
+    -alder_vid_dagens_datum,
+    -ankomstar_till_sverige)
+
+# Convert to inskrivningsdatum_pa_klinik class date
+reg <- reg %>% 
+  mutate(inskrivningsdatum_pa_klinik = as.Date(inskrivningsdatum_pa_klinik, format = "%Y-%m-%d"))
+
+# Convert dodsdatum to class date
+reg <- reg %>% 
+  mutate(dodsdatum = as.Date(dodsdatum, format = "%Y-%m-%d"))
+
+# gör alder_vid_registrering till numerisk class
+reg <- reg %>%   
+  mutate(alder_vid_registrering = as.numeric(alder_vid_registrering))
+
+# skapa ny kolumn "utrikesfodd" där Sverige i fodelseland blir Sverige, och övrigt blir Utrikes 
+reg <- reg %>% 
+  mutate(utrikesfodd = ifelse(reg$fodelseland=="Sverige", "Sverige", "Utrikes"))
+
+# skapa ny kolumn "dod_janej" där missing i dodsdatum blir ja, och datum blir nej) 
+reg <- reg %>% 
+  mutate(dod_janej = ifelse(!is.na(dodsdatum), "ja", "nej"))
+
+# Skapa förgpalett:
+cbPalette <- c("#E69F00", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7", "#56B4E9", "#999999")
+
+```
+
+```{r, echo=FALSE, warning=FALSE}
+# Skapa objekt för datumperiod
+datumperiod_min <- min(reg$inskrivningsdatum_pa_klinik)
+datumperiod_max <- max(reg$inskrivningsdatum_pa_klinik)
+
+manadsperiod_min <- datumperiod_max- months(1)
+manadsperiod_max <- datumperiod_max
+
+senastemanad_reg <- subset(reg, inskrivningsdatum_pa_klinik >= manadsperiod_min)
+
+senastemanad_antal_inskrivna <- nrow(senastemanad_reg)
+senastemanad_antal_kvinna <- nrow(subset(senastemanad_reg, kon=="Kvinna"))
+senastemanad_antal_man <- nrow(subset(senastemanad_reg, kon=="Man"))
+senastemanad_kvot_kvinna <- senastemanad_antal_kvinna / senastemanad_antal_inskrivna 
+senastemanad_kvot_man <- senastemanad_antal_man / senastemanad_antal_inskrivna 
+senastemanad_procent_kvinna <- round(senastemanad_kvot_kvinna * 100, digits = 2) 
+senastemanad_procent_man <- round(senastemanad_kvot_man * 100, digits = 2) #avrundat 2 decimaler
+senastemanad_antal_NAkon <- sum(is.na(senastemanad_reg$kon))
+
+senastemanad_antal_sverige <- nrow(subset(senastemanad_reg, fodelseland=="Sverige"))
+senastemanad_kvot_sverige <- senastemanad_antal_sverige / senastemanad_antal_inskrivna
+senastemanad_procent_sverige <- round(senastemanad_kvot_sverige * 100, digits = 2) #avrundat 2 decimaler
+
+senastemanad_antal_NAfl <- sum(is.na(senastemanad_reg$fodelseland))
+
+senastemanad_antal_utrikes <- senastemanad_antal_inskrivna - senastemanad_antal_sverige - senastemanad_antal_NAfl
+senastemanad_kvot_utrikes <- senastemanad_antal_utrikes / senastemanad_antal_inskrivna
+senastemanad_procent_utrikes <- round(senastemanad_kvot_utrikes * 100, digits = 2) #avrundat 2 decimaler
+
+dodsenastemanad_reg <- subset(reg, dodsdatum >= manadsperiod_min)
+
+dodsenastemanad_antal_avlidna <- nrow(subset(dodsenastemanad_reg))
+
+
+```
+
+Den senaste månaden (`r manadsperiod_min` till `r manadsperiod_max`) har `r senastemanad_antal_inskrivna` nya patienter registrerat sig vid sprututbytet i Stockholm. Av dessa är `r senastemanad_antal_kvinna` (`r senastemanad_procent_kvinna`%) kvinnor och `r senastemanad_antal_man` (`r senastemanad_procent_man`%) män (information om kön saknas hos `r senastemanad_antal_NAkon` patienter). `r senastemanad_antal_sverige` (`r senastemanad_procent_sverige`%) är födda i Sverige, `r senastemanad_antal_utrikes` (`r senastemanad_procent_utrikes`%) är födda i annat land än Sverige (information om födelseland saknas hos `r senastemanad_antal_NAfl` patienter).
+
+`r dodsenastemanad_antal_avlidna` patienter har registrerats vara avlidna inom samma tidsperiod. 
+
+### Registrering {.tabset}
+
+#### Per månad
+
+```{r, echo=FALSE, warning=FALSE}
+
+regsum <- reg %>%
+  mutate(inskrivningsdatum_pa_klinik_manad = format(inskrivningsdatum_pa_klinik, "%Y-%m")) 
+
+regsum <- regsum %>%
+    group_by(inskrivningsdatum_pa_klinik_manad) %>%
+    tally()
+
+regsum <- regsum %>%
+  mutate(inskrivningsdatum_pa_klinik_manad = paste(inskrivningsdatum_pa_klinik_manad, "28", sep="-")) %>%
+  mutate(inskrivningsdatum_pa_klinik_manad = as.Date(inskrivningsdatum_pa_klinik_manad, format = "%Y-%m-%d"))
+
+ggplot(regsum, aes(x = inskrivningsdatum_pa_klinik_manad, y = n)) +
+  geom_col() +
+  scale_fill_manual(values=cbPalette) +
+  labs(title = "Antal nya registrerade patienter per månad",
+       x = " ",
+       y = "Antal",
+       ) +
+  theme_bw() 
+
+```
+
+#### Ackumulerat
+
+```{r, echo=FALSE, warning=FALSE}
+ggplot(regsum, aes(x = inskrivningsdatum_pa_klinik_manad, y = cumsum(n))) +
+  geom_col() +
+  labs(title = "Ackumulerat antal inskrivna patienter per månad",
+       x = " ",
+       y = "Antal") +
+  theme_bw()
+```
+
+```{r, echo=FALSE}
+antal_inskrivna <- nrow(reg)
+antal_kvinna <- nrow(subset(reg, kon=="Kvinna"))
+antal_man <- nrow(subset(reg, kon=="Man"))
+kvot_kvinna <- antal_kvinna / antal_inskrivna 
+kvot_man <- antal_man / antal_inskrivna 
+procent_kvinna <- round(kvot_kvinna * 100, digits = 2) #avrundat 2 decimaler
+procent_man <- round(kvot_man * 100, digits = 2) #avrundat 2 decimaler
+antal_NAkon <- sum(is.na(reg$kon))
+
+antal_sverige <- nrow(subset(reg, fodelseland=="Sverige"))
+kvot_sverige <- antal_sverige / antal_inskrivna
+procent_sverige <- round(kvot_sverige * 100, digits = 2) #avrundat 2 decimaler
+
+antal_NAfl <- sum(is.na(reg$fodelseland))
+
+antal_utrikes <- antal_inskrivna - antal_sverige - antal_NAfl
+kvot_utrikes <- antal_utrikes / antal_inskrivna
+procent_utrikes <- round(kvot_utrikes * 100, digits = 2) #avrundat 2 decimaler
+
+reg_utansverige <- subset(reg, fodelseland != "Sverige")
+
+```
+
+## Sammanlagd data sedan öppning (`r datumperiod_min`) {.tabset}
+
+Under perioden `r datumperiod_min` till `r datumperiod_max` hade `r antal_inskrivna` patienter registrerat sig vid sprututbytet i Stockholm. Av dessa var `r procent_kvinna`% (n=`r antal_kvinna`) kvinnor och `r procent_man`% (n=`r antal_man`) män (information om kön saknas hos `r antal_NAkon` patienter). 
+
+`r procent_sverige`% (n=`r antal_sverige`) av de inskrivna var födda i Sverige. `r procent_utrikes`% (n=`r antal_utrikes`) var födda i annat land än Sverige. (Information om födelseland saknas hos `r antal_NAfl` patienter).
+
+### Inskrivna efter kön/land
+
+```{r, echo=FALSE, warning=FALSE}
+# skapa stapeldiagram efter kön
+reg %>%
+  subset(!is.na(kon)) %>%
+  subset(!is.na(utrikesfodd)) %>%
+  ggplot(aes(x=kon, fill=utrikesfodd)) + 
+   geom_bar(stat = "count") +
+   scale_fill_manual(values=cbPalette) +
+   stat_count(geom = "text", colour = "white", size = 3.5,
+             aes(label = ..count..),position=position_stack(vjust=0.5)) +
+    labs(title = "Antal registrerade patienter efter kön och födelseland",
+         x = "Kön",
+         y = "Antal") +
+    theme_bw() +
+    guides(fill=guide_legend(title="Född i:"))
+```
+
+### Födelseland
+
+```{r, echo=FALSE, warning=FALSE, include=FALSE}
+
+reg_utansverige_group <- reg_utansverige %>%
+                          group_by (fodelseland) %>%
+                          tally()
+reg_utansverige_group <- reg_utansverige_group %>% 
+    arrange(-n) %>%
+    top_n(25)
+```
+```{r, echo=FALSE, warning=FALSE}
+  ggplot(data=reg_utansverige_group, aes (x = n, y = reorder(fodelseland, n, sum))) + 
+  geom_col() +
+  geom_text(aes(label = n), size = 3, position = position_stack(vjust = 0.5), color = "white") +
+  labs(title = "Antal utrikesfödda efter land (20 vanligast förekommande länder)",
+       x = "Antal",
+       y = "Födelseland") +
+  theme_bw() +
+  theme(legend.position = "none")
+  
+```
+
+## Ålder vid registrering
+
+```{r, echo=FALSE, warning=FALSE}
+# summary(reg$alder_vid_registrering)
+minalder <- round(summary(reg$alder_vid_registrering)[[1]], digits = 2) #avrundat 2 decimaler
+IQRminalder <- round(summary(reg$alder_vid_registrering)[[2]], digits = 2) #avrundat 2 decimaler
+medianalder <- round(summary(reg$alder_vid_registrering)[[3]], digits = 2) #avrundat 2 decimaler
+medelalder <- round(summary(reg$alder_vid_registrering)[[4]], digits = 2) #avrundat 2 decimaler
+IQRmaxalder <- round(summary(reg$alder_vid_registrering)[[5]], digits = 2) #avrundat 2 decimaler
+maxalder <- round(summary(reg$alder_vid_registrering)[[6]], digits = 2) #avrundat 2 decimaler
+
+reg_alder_kvinnor <- subset(reg, kon=="Kvinna")
+kvinnor_minalder <- round(summary(reg_alder_kvinnor$alder_vid_registrering)[[1]], digits = 2)
+kvinnor_IQRminalder <- round(summary(reg_alder_kvinnor$alder_vid_registrering)[[2]], digits = 2) 
+kvinnor_medianalder <- round(summary(reg_alder_kvinnor$alder_vid_registrering)[[3]], digits = 2) 
+kvinnor_medelalder <- round(summary(reg_alder_kvinnor$alder_vid_registrering)[[4]], digits = 2)
+kvinnor_IQRmaxalder <- round(summary(reg_alder_kvinnor$alder_vid_registrering)[[5]], digits = 2)
+kvinnor_maxalder <- round(summary(reg_alder_kvinnor$alder_vid_registrering)[[6]], digits = 2)
+
+reg_alder_man <- subset(reg, kon=="Man")
+man_minalder <- round(summary(reg_alder_man$alder_vid_registrering)[[1]], digits = 2)
+man_IQRminalder <- round(summary(reg_alder_man$alder_vid_registrering)[[2]], digits = 2) 
+man_medianalder <- round(summary(reg_alder_man$alder_vid_registrering)[[3]], digits = 2) 
+man_medelalder <- round(summary(reg_alder_man$alder_vid_registrering)[[4]], digits = 2)
+man_IQRmaxalder <- round(summary(reg_alder_man$alder_vid_registrering)[[5]], digits = 2)
+man_maxalder <- round(summary(reg_alder_man$alder_vid_registrering)[[6]], digits = 2)
+
+reg_alder_sverige <- subset(reg, utrikesfodd=="Sverige")
+sverige_minalder <- round(summary(reg_alder_sverige$alder_vid_registrering)[[1]], digits = 2)
+sverige_IQRminalder <- round(summary(reg_alder_sverige$alder_vid_registrering)[[2]], digits = 2) 
+sverige_medianalder <- round(summary(reg_alder_sverige$alder_vid_registrering)[[3]], digits = 2) 
+sverige_medelalder <- round(summary(reg_alder_sverige$alder_vid_registrering)[[4]], digits = 2)
+sverige_IQRmaxalder <- round(summary(reg_alder_sverige$alder_vid_registrering)[[5]], digits = 2)
+sverige_maxalder <- round(summary(reg_alder_sverige$alder_vid_registrering)[[6]], digits = 2)
+
+reg_alder_utland <- subset(reg, utrikesfodd=="Utrikes")
+utland_minalder <- round(summary(reg_alder_utland$alder_vid_registrering)[[1]], digits = 2)
+utland_IQRminalder <- round(summary(reg_alder_utland$alder_vid_registrering)[[2]], digits = 2) 
+utland_medianalder <- round(summary(reg_alder_utland$alder_vid_registrering)[[3]], digits = 2) 
+utland_medelalder <- round(summary(reg_alder_utland$alder_vid_registrering)[[4]], digits = 2)
+utland_IQRmaxalder <- round(summary(reg_alder_utland$alder_vid_registrering)[[5]], digits = 2)
+utland_maxalder <- round(summary(reg_alder_utland$alder_vid_registrering)[[6]], digits = 2)
+
+```
+
+Medianåldern vid registrering var `r medianalder` år (`r minalder`-`r maxalder` år, IQR: `r IQRminalder`-`r IQRmaxalder` år, medel: `r medelalder` år). 
+
+Medianåldern vid registrering bland kvinnor var `r kvinnor_medianalder` år (`r kvinnor_minalder`-`r kvinnor_maxalder` år, IQR: `r kvinnor_IQRminalder`-`r kvinnor_IQRmaxalder` år, medel: `r kvinnor_medelalder` år). Medianåldern vid registrering bland män var `r man_medianalder` år (`r man_minalder`-`r man_maxalder` år, IQR: `r man_IQRminalder`-`r man_IQRmaxalder` år, medel: `r man_medelalder` år). 
+
+Medianåldern vid registrering bland personer födda i Sverige var `r sverige_medianalder` år (`r sverige_minalder`-`r sverige_maxalder` år, IQR: `r sverige_IQRminalder`-`r sverige_IQRmaxalder` år, medel: `r sverige_medelalder` år). Medianåldern vid registrering bland personer födda i annat land än Sverige var `r utland_medianalder` år (`r utland_minalder`-`r utland_maxalder` år, IQR: `r utland_IQRminalder`-`r utland_IQRmaxalder` år, medel: `r utland_medelalder` år).
+
+### Ålder  efter kön {.tabset}
+
+#### Ålderspyramid
+
+```{r, echo=FALSE, warning=FALSE}
+
+reg_alderspyramid_kon <- reg
+
+# skapar ny column med ålderkategorier 5 å intervall
+labs <- c(paste(seq(0, 95, by = 5), seq(0 + 5 - 1, 100 - 1, by = 5),
+                sep = "-"), paste(100, "+", sep = ""))
+reg_alderspyramid_kon$aldersgrupp <- cut(reg_alderspyramid_kon$alder_vid_registrering, breaks = c(seq(0, 100, by = 5), Inf), labels = labs, right = FALSE)
+
+# ritar pyramid
+apyramid::age_pyramid(data = reg_alderspyramid_kon,
+                      age_group = "aldersgrupp",
+                      split_by = "kon",
+#Aktivera för %:      proportional = TRUE
+                      ) +
+                      labs(title = "Ålder vid registrering efter kön",
+                          x = "Ålder",
+                          y = "Antal",
+                          fill = "Kön") +
+                      theme_bw()
+```
+
+#### Boxplot
+
+```{r, echo=FALSE, warning=FALSE}
+
+ggplot(data=subset(reg, !is.na(kon)), aes(x=kon, y=alder_vid_registrering)) + 
+  geom_boxplot() +
+  
+  labs(title = "Ålder vid registrering efter kön",
+       x = "Kön",
+       y = "Ålder") +
+  theme_bw() +
+  theme(legend.position = "none") +
+  scale_color_npg()
+```
+
+### Ålder efter födelseland {.tabset}
+
+#### Ålderspyramid
+
+```{r, echo=FALSE, warning=FALSE}
+
+reg_alderspyramid_fodelseland <- reg
+
+# skapar ny column med ålderkategorier 5 å intervall
+labs <- c(paste(seq(0, 95, by = 5), seq(0 + 5 - 1, 100 - 1, by = 5),
+                sep = "-"), paste(100, "+", sep = ""))
+reg_alderspyramid_fodelseland$aldersgrupp <- cut(reg_alderspyramid_fodelseland$alder_vid_registrering, breaks = c(seq(0, 100, by = 5), Inf), labels = labs, right = FALSE)
+
+# ritar pyramid
+apyramid::age_pyramid(data = reg_alderspyramid_fodelseland,
+                      age_group = "aldersgrupp",
+                      split_by = "utrikesfodd",
+#Aktivera för %:      proportional = TRUE
+                      ) +
+                      labs(title = "Ålder vid registrering efter födelseland",
+                          x = "Födelseland",
+                          y = "Antal",
+                          fill = "Födelseland") +
+                      theme_bw()
+```
+
+#### Boxplot
+
+```{r, echo=FALSE, warning=FALSE}
+
+ggplot(data=subset(reg, !is.na(utrikesfodd)), aes(x=utrikesfodd, y=alder_vid_registrering)) + 
+  geom_boxplot() +
+  
+  labs(title = "Ålder vid registrering efter födelseland",
+       x = "Födelseland",
+       y = "Ålder") +
+  theme_bw() +
+  theme(legend.position = "none")
+```
+
+## Mortalitet
+
+```{r, echo=FALSE, warning=FALSE}
+
+antal_avlidna <- nrow(subset(reg, dod_janej=="ja"))
+kvot_avlidna <- antal_avlidna / antal_inskrivna
+procent_avlidna <- round(kvot_avlidna * 100, digits = 2) #avrundat 2 decimaler
+
+reg_kvinnor <- subset(reg, kon=="Kvinna")
+antal_avlidna_kvinna <- nrow(subset(reg_kvinnor, dod_janej=="ja"))
+kvot_avlidna_kvinna <- antal_avlidna_kvinna / antal_kvinna
+procent_avlidna_kvinna <- round(kvot_avlidna_kvinna * 100, digits = 2) #avrundat 2 decimaler
+
+reg_man <- subset(reg, kon=="Man")
+antal_avlidna_man <- nrow(subset(reg_man, dod_janej=="ja"))
+kvot_avlidna_man <- antal_avlidna_man / antal_man
+procent_avlidna_man <- round(kvot_avlidna_man * 100, digits = 2) #avrundat 2 decimaler
+
+reg_svensk <- subset(reg, utrikesfodd=="Sverige")
+antal_avlidna_sverige <- nrow(subset(reg_svensk, dod_janej=="ja"))
+kvot_avlidna_sverige <- antal_avlidna_sverige / antal_sverige
+procent_avlidna_sverige <- round(kvot_avlidna_sverige * 100, digits = 2) #avrundat 2 decimaler
+
+reg_utrikes <- subset(reg, utrikesfodd=="Utrikes")
+antal_avlidna_utrikes <- nrow(subset(reg_utrikes, dod_janej=="ja"))
+kvot_avlidna_utrikes <- antal_avlidna_utrikes / antal_utrikes
+procent_avlidna_utrikes <- round(kvot_avlidna_utrikes * 100, digits = 2) #avrundat 2 decimaler
+
+```
+
+`r procent_avlidna`% (n=`r antal_avlidna`) av registrerade patienter hade vid tid för datauttag avvlidit. 
+
+Mortaliteten bland kvinnor (n=`r antal_kvinna`) var `r procent_avlidna_kvinna`% (n=`r antal_avlidna_kvinna`). Mortaliteten bland män (n=`r antal_man`) var `r procent_avlidna_man`% (n=`r antal_avlidna_man`). 
+
+Mortaliteten bland svenskfödda (n=`r antal_sverige`) var `r procent_avlidna_sverige`% (n=`r antal_avlidna_sverige`). Mortaliteten bland utrikesfödda (n=`r antal_utrikes`) var `r procent_avlidna_utrikes`% (n=`r antal_avlidna_utrikes`).
+
+
+```{r, echo=FALSE, warning=FALSE}
+
+reg_survival <- reg
+
+# Skapa kolumn outcome, 1 är död, 0 är ej död
+reg_survival <-  reg_survival %>%
+  mutate(outcome = ifelse(dod_janej == "ja", 1, 0)) %>%
+  mutate(fu_datum = ifelse(!is.na(dodsdatum), dodsdatum, max(inskrivningsdatum_pa_klinik))) %>%
+  mutate(fu_datum = as.Date(fu_datum, format = "%Y-%m-%d")) 
+
+```
+
+### Kaplan-Meier {.tabset}
+
+#### Alla
+
+```{r, echo=FALSE, warning=FALSE}
+
+reg_survival <- reg_survival %>% 
+  
+  filter(
+       # remove observations with wrong or missing dates of onset or date of outcome
+       fu_datum > inskrivningsdatum_pa_klinik) %>%
+  
+  mutate(
+       # create the var on the follow-up time in days
+       fu_time = as.double(fu_datum - inskrivningsdatum_pa_klinik))
+
+# Use Suv() syntax for right-censored data
+reg_survobj <- Surv(time = reg_survival$fu_time,
+                event = reg_survival$outcome)
+
+# fit the KM estimates using a formula where the Surv object "survobj" is the response variable.
+# "~ 1" signifies that we run the model for the overall survival  
+reg_surv_fit <-  survival::survfit(reg_survobj ~ 1)
+
+#print its summary for more details
+#summary(reg_surv_fit)
+
+plot(reg_surv_fit, 
+     xlab = "Days of follow-up",    # x-axis label
+     ylab="Survival Probability",   # y-axis label
+     main= "Overall survival curve" # figure title
+     )
+
+```
+
+#### Kön
+
+```{r, echo=FALSE, warning=FALSE}
+
+# create the new survfit object based on gender
+reg_surv_fit_kon <-  survfit(Surv(fu_time, outcome) ~ kon, data = reg_survival)
+
+survminer::ggsurvplot(
+    reg_surv_fit_kon, 
+    data = reg_survival,          # again specify the data used to fit linelistsurv_fit_sex 
+    conf.int = FALSE,              # do not show confidence interval of KM estimates
+    surv.scale = "percent",        # present probabilities in the y axis in %
+    break.time.by = 500,            # present the time axis with an increment of 500 days
+    xlab = "Follow-up days",
+    ylab = "Survival Probability",
+    pval = T,                      # print p-value of Log-rank test 
+    pval.size = 5,
+    pval.coord = c(2400,.08),        # print p-value at these plot coordinates
+    legend.title = "Gender",       # legend characteristics
+    legend.labs = c("Female","Male"),
+    font.legend = 10, 
+    surv.median.line = "hv",       # draw horizontal and vertical lines to the median survivals
+    ggtheme = theme_bw(),        # simplify plot background
+    censor = FALSE
+)
+
+```
+
+#### Födelseland
+
+```{r, echo=FALSE, warning=FALSE}
+
+# create the new survfit object based on utrikesfodds
+reg_surv_fit_fl <-  survfit(Surv(fu_time, outcome) ~ utrikesfodd, data = reg_survival)
+
+survminer::ggsurvplot(
+    reg_surv_fit_fl, 
+    data = reg_survival,          # again specify the data used to fit linelistsurv_fit_sex 
+    conf.int = FALSE,              # do not show confidence interval of KM estimates
+    surv.scale = "percent",        # present probabilities in the y axis in %
+    break.time.by = 500,            # present the time axis with an increment of 500 days
+    xlab = "Follow-up days",
+    ylab = "Survival Probability",
+    pval = T,                      # print p-value of Log-rank test 
+    pval.size = 5,
+    pval.coord = c(2400,.08),        # print p-value at these plot coordinates
+    legend.title = "Född i:",       # legend characteristics
+    legend.labs = c("Sverige","Utomlands"),
+    font.legend = 10, 
+    surv.median.line = "hv",       # draw horizontal and vertical lines to the median survivals
+    ggtheme = theme_bw(),        # simplify plot background
+    censor = FALSE
+)
+
+```
+
+
+
