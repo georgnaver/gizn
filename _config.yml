@@ -3,7 +3,7 @@ author: gizn # name of site's author
 email: gizn@georgnaver.se # email of site's author
 url: https://gizn.se # root address of the site
 description: > # description of the site (multiple lines allowed)
-  A collection of thoughts. Divided into shorter snippets called "TIL" (Today I Learned) and a bit longer posts called "Notes."  ...
+  A collection of thoughts. Divided into shorter snippets called "TIL" (Today I Learned) and a bit longer posts called "Notes."
 
 favicon: "./logo.png" # relative path to site's favicon
 
