@@ -1,12 +1,13 @@
 title: gizn.se # name of the site
 author: gizn # name of site's author
 email: gizn@georgnaver.se # email of site's author
-url: https://georgnaver.github.io/gizn # root address of the site
+url: https://gizn.se # root address of the site
 description: > # description of the site (multiple lines allowed)
   A collection of thoughts. Divided into shorter snippets called "TIL" (Today I Learned) and a bit longer posts called "Notes."
 
 favicon: "./logo.png" # relative path to site's favicon
-# goat_counter: "yoursitename" # put your GoatCounter name if you want to use GoatCounter analytics
+
+goat_counter: "gizn" # put your GoatCounter name if you want to use GoatCounter analytics
 
 remote_theme: no-style-please # if you are using GitHub Pages, change it to remote_theme: riggraz/no-style-please
 
