@@ -47,3 +47,7 @@ The authors note that symptology and brain tissue changes are not fully overlapp
 Fernández-Castañeda A, Lu P, Geraghty AC, et al. Mild respiratory COVID can cause multi-lineage neural cell and myelin dysregulation. _Cell_. 2022;185(14):2452-2468.e16. doi:[10.1016/j.cell.2022.06.008](https://doi.org/10.1016/j.cell.2022.06.008)
 
 [source →](https://www.cell.com/cell/fulltext/S0092-8674(22)00713-9)
+
+### Comment
+
+Disagree with something? Anything you want to discuss? Please [email me](mailto:gizn@georgnaver.se) or [comment on Twitter.](https://twitter.com/giznse/status/1612013236789862402)
