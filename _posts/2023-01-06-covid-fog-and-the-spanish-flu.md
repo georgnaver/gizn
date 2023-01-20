@@ -50,4 +50,4 @@ Fernández-Castañeda A, Lu P, Geraghty AC, et al. Mild respiratory COVID can ca
 
 ### Comment
 
-Disagree with something? Anything you want to discuss? Please [email me](mailto:gizn@georgnaver.se) or [comment on Twitter.](https://twitter.com/giznse/status/1612013236789862402)
+Disagree with something? Anything you want to discuss? Please [email me](mailto:gizn@georgnaver.se) or [comment on Twitter](https://twitter.com/giznse/status/1612013236789862402) or [mastodon.](https://mstdn.science/@gizn/109720465995293589)

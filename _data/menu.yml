@@ -26,6 +26,8 @@ entries:
     url: https://github.com/georgnaver
   - title: Twitter
     url: https://twitter.com/giznse
+  - title: Mastodon
+    url: https://mstdn.science/@gizn
   - title: Email
     url: mailto:gizn@georgnaver.se
 
