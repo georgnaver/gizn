@@ -6,7 +6,7 @@ category: notes
 tags: Zotero Obsidian Guide 
 ---
 
-I use [Zotero](https://www.zotero.org) for reference management and [Obsidian](https://obsidian.md) for note taking. There is a whole religion around note taking with concepts such as "second brain," "Personal Knowledge Management (PKM)" and "Zettelkasten." I find that a bit too much but enjoy the software, it saves everything in clean .md files in your file system (makes it future proof, you can change software later on and still have all your notes) and supports wiki style linking between notes. I use Zotero simply because it is the best reference manager I have found, it is also free and open source if you are in to that. 
+I use [Zotero](https://www.zotero.org) for reference management and [Obsidian](https://obsidian.md) for note taking. There is a whole religion around note taking with concepts such as "Second Brain," "Personal Knowledge Management (PKM)" and "Zettelkasten." I find that a bit too much but enjoy the software, it saves everything in clean .md files in your file system (makes it future proof, you can change software later on and still have all your notes) and supports wiki style linking between notes. I use Zotero simply because it is the best reference manager I have found, it is also free and open source if you are in to that. 
 
 My workflow is such that I start by reading an article in my Zotero library, and make highlights and notes directly on the PDF in the app. I do this in the official app, either on my iPad, phone or computer. I then import these highlights and notes into obsidian for storage and further processing.
 
@@ -77,7 +77,7 @@ OK, back to adding a import format.
 
 ![Screenshot](/assets/img/ZO12.png)
 
-- Your first note with highlights from an article in your Zotero library should now be imported.
+Your first note with highlights from an article in your Zotero library should now be imported.
 
 ### Comment
 
