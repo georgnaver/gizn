@@ -81,4 +81,4 @@ OK, back to adding a import format.
 
 ### Comment
 
-Disagree with something? Anything you want to discuss? Please [email me](mailto:gizn@georgnaver.se) or comment on [twitter](TWITTERLÄNK) or [mastodon.](MASTODONLÄNK)
+Disagree with something? Anything you want to discuss? Please [email me](mailto:gizn@georgnaver.se) or comment on [twitter](https://twitter.com/giznse/status/1617503251083202560) or [mastodon.](https://mstdn.science/@gizn/109738584320652972)
