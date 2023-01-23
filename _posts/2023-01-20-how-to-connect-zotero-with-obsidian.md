@@ -28,7 +28,9 @@ The process is pretty straightforward, but when setting this up I found confusin
 
 - Install the [Better BibTeX for Zotero](https://retorque.re/zotero-better-bibtex/installation/) plugin.
 - Make sure you have selected a quick copy style. In Zotero open preferences -> export and under "quick copy," select a suitable citation style
+
 ![Screenshot](/assets/img/ZO5.png)
+
 - Test quick copy style by opening an article in zotero, choose edit -> Copy Bibliography, and try to paste it somewhere. 
 
 ## Set up Obsidian
