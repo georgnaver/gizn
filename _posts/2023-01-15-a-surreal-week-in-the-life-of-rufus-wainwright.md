@@ -14,4 +14,4 @@ An outlandish tidbit from the wikipedia article on Rufus Wainwright:
 
 ### Comment
 
-Disagree with something? Anything you want to discuss? Please [email me](mailto:gizn@georgnaver.se) or [comment on Twitter](https://twitter.com/giznse/status/1614546436494065664) or [mastodon.](https://mstdn.science/@gizn/109720468030682678)
+Disagree with something? Anything you want to discuss? Please [email me](mailto:gizn@georgnaver.se) or comment on [twitter](https://twitter.com/giznse/status/1614546436494065664) or [mastodon.](https://mstdn.science/@gizn/109720468030682678)
