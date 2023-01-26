@@ -27,7 +27,7 @@ The process is pretty straightforward, but when setting this up I found confusin
 ## Set up Zotero
 
 - Install the [Better BibTeX for Zotero](https://retorque.re/zotero-better-bibtex/installation/) plugin.
-- Make sure you have selected a quick copy style. In Zotero open preferences -> export and under "quick copy," select a suitable citation style
+- Make sure you have selected a quick copy style. In Zotero open preferences > export and under "quick copy," select a suitable citation style
 
 ![Screenshot](/assets/img/ZO5.png)
 
@@ -36,7 +36,7 @@ The process is pretty straightforward, but when setting this up I found confusin
 ## Set up Obsidian
 
 - Install the community plugin "Zotero Integration." 
-	- Open preferences (bottom left in the main Obsidian window), under Options select Community plugins and click browse (if this is the first community plug in you install, you will have to turn off "restricted mode.").
+	- Open preferences (bottom left in the main Obsidian window), under Options select Community plugins and click browse (if this is the first community plugin you install, you will have to turn off "restricted mode.").
 	- Search for "Zotero Integration," click install and enable.
 	
 ![Screenshot](/assets/img/ZO6.png)
