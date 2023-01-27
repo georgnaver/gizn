@@ -81,4 +81,4 @@ Your first note with highlights from an article in your Zotero library should no
 
 ### Comment
 
-Disagree with something? Anything you want to discuss? Please [email me](mailto:gizn@georgnaver.se) or comment on [twitter](https://twitter.com/giznse/status/1617503251083202560) or [mastodon.](https://mstdn.science/@gizn/109738584320652972)
+Disagree with something? Anything you want to discuss? Please comment on [twitter](https://twitter.com/giznse/status/1617503251083202560) or [mastodon](https://mstdn.science/@gizn/109738584320652972).
