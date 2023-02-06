@@ -5,6 +5,7 @@ title: "How to connect Zotero with Obsidian"
 category: notes
 tags: Zotero Obsidian Guide 
 ---
+***Edit 2023-02-06:*** *Read [this](http://gizn.org/til/2023/02/06/how-to-find-variables-to-import-for-your-zotero-integration-obsidian-plugin-template.html) and [this](http://gizn.org/til/2023/02/06/updated-zotero-integration-template.html) for more information on the template used further down this post*
 
 I use [Zotero](https://www.zotero.org) for reference management and [Obsidian](https://obsidian.md) for note taking. There is a whole religion around note taking with concepts such as "Second Brain," "Personal Knowledge Management (PKM)" and "Zettelkasten." I find that a bit too much but enjoy the software, it saves everything in clean .md files in your file system (makes it future proof, you can change software later on and still have all your notes) and supports wiki style linking between notes. I use Zotero simply because it is the best reference manager I have found, it is also free and open source if you are in to that. 
 
