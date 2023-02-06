@@ -71,9 +71,9 @@ In the previous version, the "take aways", "related" and "tags" sections were ov
 
 ### 3.
 
-{% raw %}
 The template now includes a table with basic information and links associated with the article.
 
+{% raw %}
     | |
     |------------ | ------------|
     | Title | {{title}} |
