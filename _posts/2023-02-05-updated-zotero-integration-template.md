@@ -15,6 +15,7 @@ The template now imports selected areas. This allow you to make a selection in Z
 
 The following chunk...
 
+{% raw %}
     {% for annotation in annotations %}
     {% if annotation.annotatedText %}
     > <mark style="background-color: {{annotation.color}};color: black">Highlight</mark> 
@@ -26,9 +27,11 @@ The following chunk...
     > {{annotation.comment}}
     > [Page {{annotation.page}}](zotero://open-pdf/library/items/{{annotation.attachment.itemKey}}?page={{annotation.page}})
     {% endfor %}
+{% endraw %}
 
 ...has been replaced with (or rather have gotten the addition of) this:
 
+{% raw %}
     {% for annotation in annotations %}
     {% if annotation.annotatedText %}
     > <mark style="background-color: {{annotation.color}};color: black">Highlight</mark> 
@@ -44,11 +47,13 @@ The following chunk...
     ![[{{annotation.imageRelativePath}}]]
     {% endif %}
     {% endfor %}
+{% endraw %}
 
 ### 2.
 
 In the previous version, the "take aways", "related" and "tags" sections were overwritten everytime you reimported. This is fixed by adding {% persist %}:
 
+{% raw %}
     {% persist "notes" %}
     ### Take-aways
     
@@ -62,9 +67,11 @@ In the previous version, the "take aways", "related" and "tags" sections were ov
     
     #wip #literature-note #medicin #zotero 
     {% endpersist %}
+{% endraw %}
 
 ### 3.
 
+{% raw %}
 The template now includes a table with basic information and links associated with the article.
 
     | |
@@ -74,6 +81,7 @@ The template now includes a table with basic information and links associated wi
     | Publication | {{publicationTitle}} |
     | Zotero link | {{pdfZoteroLink}} |
     | Web link | {{url}} |
+{% endraw %}
 
 ### Comment
 
