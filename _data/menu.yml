@@ -19,7 +19,7 @@ entries:
       show_more_url: notes-archive.html
 
   - title: All posts
-    url: archive.html
+    url: /archive.html
   - title: RSS
     url: feed.xml
   - title: Github
