@@ -17,4 +17,4 @@ In the [reddit post](https://www.reddit.com/r/ObsidianMD/comments/10k2pl2/how_to
 
 ### Comment
 
-Disagree with something? Anything you want to discuss? Please comment on [twitter](https://twitter.com/giznse/status/1618935063735058439) or [mastodon](https://mstdn.science/@gizn/109760964411701464).
+Disagree with something? Anything you want to discuss? Please comment on [twitter](https://twitter.com/giznse/status/1622564111585271815) or [mastodon](https://mstdn.science/@gizn/109817653733249172).
