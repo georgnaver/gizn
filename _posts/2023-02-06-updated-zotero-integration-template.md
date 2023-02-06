@@ -85,4 +85,4 @@ The template now includes a table with basic information and links associated wi
 
 ### Comment
 
-Disagree with something? Anything you want to discuss? Please comment on [twitter](https://twitter.com/giznse/status/1618935063735058439) or [mastodon](https://mstdn.science/@gizn/109760964411701464).
+Disagree with something? Anything you want to discuss? Please comment on [twitter](https://twitter.com/giznse/status/1622561726620176384) or [mastodon](https://mstdn.science/@gizn/109817616558059669).
