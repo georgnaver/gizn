@@ -2,32 +2,8 @@
 # https://github.com/riggraz/no-style-please#customize-the-menu
 
 entries:
-  - title: TIL / 
-    post_list:
-      category: til
-      limit: 5
-      show_more: true
-      show_more_text: See more posts...
-      show_more_url: til-archive.html
-
-  - title: Notes / 
-    post_list:
-      category: notes
-      limit: 5
-      show_more: true
-      show_more_text: See more posts...
-      show_more_url: notes-archive.html
-
-  - title: All posts
-    url: /archive.html
-  - title: RSS
-    url: feed.xml
-  - title: Github
-    url: https://github.com/georgnaver
-  - title: Twitter
-    url: https://twitter.com/giznse
-  - title: Mastodon
-    url: https://mstdn.science/@gizn
+  - title: This page has moved, please visit arslonga.email
+    url: https://arslonga.email
 
 
 
