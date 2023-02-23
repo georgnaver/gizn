@@ -2,6 +2,7 @@
 type: blog-post
 layout: post
 title: "How to connect Zotero with Obsidian"
+redirect_to: https://www.arslonga.email/how-to-connect-zotero-with-obsidian/
 category: notes
 tags: Zotero Obsidian Guide 
 ---
