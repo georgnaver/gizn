@@ -3,6 +3,7 @@ image: https://gizn.goatcounter.com/count?p=/RSS-how-to-find-variables-to-import
 type: blog-post
 layout: post
 title: "How to find variables to import for your Zotero Integration Obsidian plugin template"
+redirect_to: https://www.arslonga.email/how-to-find-variables-to-import-for-your-zotero-integration-obsidian-plugin-template/
 category: til
 tags: obsidian zotero zoterointegration template
 ---
