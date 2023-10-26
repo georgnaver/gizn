@@ -16,12 +16,15 @@ entries:
       show_more_text: See archive...
       show_more_url: archive.html
 
-  - title: posts by category
+  - title: til
     post_list:
       category: til
       show_more: true
-      show_more_text: See more posts...
+      show_more_text: See more...
       show_more_url: til-archive.html
+
+  - title: archive
+    url: archive.html
 
   - title: rss
     url: feed.xml
