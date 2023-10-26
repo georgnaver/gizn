@@ -2,7 +2,6 @@
 layout: post
 category: projects
 ---
-# Incidence and spontaneous clearance of hepatitis C virus (HCV) in people who inject drugs at the Stockholm Needle Exchange-Importance for HCV elimination
 
 Kåberg M, Navér G, Hammarberg A, Weiland O. Incidence and spontaneous clearance of hepatitis C virus (HCV) in people who inject drugs at the Stockholm Needle Exchange-Importance for HCV elimination. J Viral Hepat. 2018;25(12):1452-1461. doi:10.1111/jvh.12969
 
@@ -11,4 +10,5 @@ The major transmission route for hepatitis C virus (HCV) is through sharing of u
 **Keywords:** PWID; harm reduction; hepatitis C; incidence; needle exchange programmes; reinfection.
 
 [Pubmed](https://pubmed.ncbi.nlm.nih.gov/29998522/)
+
 [Full text](https://onlinelibrary.wiley.com/doi/10.1111/jvh.12969)
