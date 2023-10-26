@@ -4,15 +4,25 @@ title: Poetry
 ---
 
 Knäppte igång rakapparaten.
+
 Den började spinna.
+
 Den surrade starkare och starkare.
+
 Växte till ett dån.
+
 Växte till en helikopter
+
 och en röst – pilotens – trängde fram
+
 genom dånet, skrek:
+
 ”Höll ögonen öppna!
+
 Du ser det för sista gången.”
+
 Vi lyfte.
+
 Flög lågt över sommaren.
 
 Tomas Tranströmer
