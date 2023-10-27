@@ -29,7 +29,5 @@ entries:
 
   - title: rss
     url: feed.xml
-    
-  - title: poetry
-    url: poetry.html
+
 
